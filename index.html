@@ -86,14 +86,14 @@
                         let name = result[i]['name']
                         let address = result[i]['address']
                         let size = result[i]['size']
-                        let price = size.substring(0,2)*500
+                        let price = size.split("평")[0]*500  // TEST 위해 추가된 부분입니다
 
                         let temp_html = `<tr>
                                             <td>${name}</td>
                                             <td>${address}</td>
                                             <td>${size}</td>
-                                            <td>${price}원</td>
-                                        </tr>`
+                                            <td>${price}원</td>  // TEST 위해 추가된 부분입니다
+                                        </tr>` 
 
                         $('#tbody').append(temp_html)
                     }
