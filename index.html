@@ -16,6 +16,9 @@
     <style>
         * {
             margin: 0 auto;
+            padding: 0;
+            box-sizing: border-box;
+
         }
 
         .wrap {
@@ -64,152 +67,145 @@
         }
 
     </style>
+    <script>
+        $(document).ready(function () {
+            showAll();
+        });
 
 
+        function search_fuc() {
+
+
+            let select_codename = $("#select_codename option:selected").val()
+            let select_guname = $("#select_guname option:selected").val()
+
+            if (select_codename == "") {
+                alert("장르를 선택해주세요")
+            } else if (select_guname == "") {
+                alert("지역을 선택해주세요")
+            } else {
+                $('#post_box').empty()
+                $.ajax({
+                    type: "POST",
+                    url: "/search",
+                    data: {"codename_give": select_codename, "guname_give": select_guname},
+                    success: function (response) {
+
+                        let result = response["search_result"]
+                        if (result == "") {
+                            alert("조건에 맞는 공연이 없습니다")
+                            window.location.href = '/'
+                        } else {
+                            for (let i = 0; i < result.length; i++) {
+                                let main_img = result[i]['main_img']
+                                let title = result[i]['title']
+
+                                let temp_html = `<div class="col">
+                                            <div class="card">
+                                                <img src="${main_img}"
+                                                     class="card-img-top" alt="...">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${title}</h5>
+                                                </div>
+                                            </div>
+                                        </div>`
+                                $('#post_box').append(temp_html)
+
+                            }
+                        }
+
+                    }
+                })
+            }
+        }
+
+        function showAll() {
+
+            $.ajax({
+                type: "GET",
+                url: "/show",
+                data: {},
+                success: function (response) {
+                    let result = response["show_result"]
+
+                    console.log(result)
+
+                    for (let i = 0; i < result.length; i++) {
+                        let main_img = result[i]['main_img']
+                        let title = result[i]['title']
+
+                        let temp_html = `<div class="col">
+                                            <div class="card">
+                                                <img src="${main_img}"
+                                                     class="card-img-top" alt="...">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">${title}</h5>
+                                                </div>
+                                            </div>
+                                        </div>`
+                        $('#post_box').append(temp_html)
+
+                    }
+
+                }
+            })
+        }
+
+
+    </script>
 </head>
 <body>
-<div class="wrap">
+    <div class="wrap">
+        <div class="button">
+            <button type="button" class="btn btn-outline-secondary" onclick="login_page()">로그인</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="signup_page()">회원가입</button>
+        </div>
+        <div class="banner"></div>
+        <div class="select_bar">
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select_codename">
+                <option selected>장르 선택</option>
+                <option value="클래식">클래식</option>
+                <option value="콘서트">콘서트</option>
+                <option value="축제-문화/예술">축제-문화/예술</option>
+                <option value="뮤지컬/오페라">뮤지컬/오페라</option>
+                <option value="전시/미술">전시/미술</option>
+                <option value="문화교양/강좌">문화교양/강좌</option>
+                <option value="국악">국악</option>
+                <option value="기타">기타</option>
+            </select>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select_guname">
+                <option value="">지역 선택</option>
+                <option value="강남구">강남구</option>
+                <option value="관악구">관악구</option>
+                <option value="광진구">광진구</option>
+                <option value="구로구">구로구</option>
+                <option value="금천구">금천구</option>
+                <option value="노원구">노원구</option>
+                <option value="도봉구">도봉구</option>
+                <option value="동대문구">동대문구</option>
+                <option value="동작구">동작구</option>
+                <option value="마포구">마포구</option>
+                <option value="서대문구">서대문구</option>
+                <option value="서초구">서초구</option>
+                <option value="성동구">성동구</option>
+                <option value="성북구">성북구</option>
+                <option value="송파구">송파구</option>
+                <option value="양천구">양천구</option>
+                <option value="영등포구">영등포구</option>
+                <option value="용산구">용산구</option>
+                <option value="은평구">은평구</option>
+                <option value="종로구">종로구</option>
+                <option value="중구">중구</option>
+                <option value="중랑구">중랑구</option>
+            </select>
+            <button type="button" class="btn btn-outline-secondary" onclick="search_fuc()">검색</button>
+        </div>
+        <div class="post_box">
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="post_box">
 
-    <div class="button">
-        <button type="button" class="btn btn-outline-secondary" onclick="login_page()">로그인</button>
-        <button type="button" class="btn btn-outline-secondary" onclick="signup_page()">회원가입</button>
-    </div>
-    <div class="banner"></div>
-    <div class="select_bar">
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option selected>장르 선택</option>
-            <option value="classic">클래식</option>
-            <option value="concert">콘서트</option>
-            <option value="festival">축제-문화/예술</option>
-            <option value="musical">뮤지컬/오페라</option>
-            <option value="exhibition">전시/미술</option>
-            <option value="cultural">문화교양/강좌</option>
-            <option value="etc">기타</option>
-        </select>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example">
-            <option value="">지역 선택</option>
-            <option value="region1">강남구</option>
-            <option value="region2">관악구</option>
-            <option value="region3">광진구</option>
-            <option value="region4">구로구</option>
-            <option value="region5">금천구</option>
-            <option value="region6">노원구</option>
-            <option value="region7">도봉구</option>
-            <option value="region8">동대문구</option>
-            <option value="region9">동작구</option>
-            <option value="region10">마포구</option>
-            <option value="region11">서대문구</option>
-            <option value="region12">서초구</option>
-            <option value="region13">성동구</option>
-            <option value="region14">성북구</option>
-            <option value="region15">송파구</option>
-            <option value="region16">양천구</option>
-            <option value="region17">영등포구</option>
-            <option value="region18">용산구</option>
-            <option value="region19">은평구</option>
-            <option value="region20">종로구</option>
-            <option value="region21">중구</option>
-            <option value="region22">중랑구</option>
-        </select>
-        <button type="button" class="btn btn-outline-secondary">검색</button>
-    </div>
-    <div class="post_box">
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card">
-                    <img src="https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=a83bcf79b1af4967b00c9f74d4cca85a&thumb=Y"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">JAZZ REBOOT</h5>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=f9b517cc836745da99f34e9193c483e0&thumb=Y"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">2022 M 소나타 시리즈 #6</h5>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=97c2d597d4e24d42a8151b38e2c71e6a&thumb=Y"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">2022 M 소나타 시리즈 #5</h5>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=0771e7d9a4414b5c9228ae82ca753980&thumb=Y"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">2022 서울국제작가축제</h5>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=8d3cbdac7f6a4b0b88bbbdd9ff4e0a03&thumb=Y"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">2022 한국가곡 세기의 콘서트</h5>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=ec8e066bdc0e428096c78f42312692b2&thumb=Y"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">세 남자의 11시 콘서트</h5>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=88a8f8ae327f4bb6a868add46736ebaa&thumb=Y"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">2022 이럴때 이런음악</h5>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=f9ce3e55a2ec40aa961c5e9e9eb2b3e5&thumb=Y"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">오페라 '처사 남명'</h5>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="https://culture.seoul.go.kr/cmmn/file/getImage.do?atchFileId=b12fcc90e4ba4800acc9575c4ad16a4b&thumb=Y"
-                         class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">어린이를 위한 창작뮤지컬 클래스</h5>
-
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-
-</div>
-
 </body>
 <script>
 
