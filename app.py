@@ -1,36 +1,53 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
+from pymongo import MongoClient
+import requests
+
 app = Flask(__name__)
 
-from pymongo import MongoClient
-client = MongoClient('mongodb+srv://sparta:1234@cluster0.aruhsct.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://leo4902:wnwkd0919!@cluster0.57geb.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
-
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-@app.route("/mars", methods=["POST"])
-def web_mars_post():
-    name_receive = request.form['name_give']
-    address_receive = request.form['address_give']
-    size_receive = request.form['size_give']
+# @app.route("/data")
+# def data():
+#     url = "http://openapi.seoul.go.kr:8088/4a6a484f496c656f33336a5167796d/json/culturalEventInfo/1/500/"
+#     response = requests.get(url).json()['culturalEventInfo']['row']
+#
+#     for row in response:
+#         doc = {
+#             'codename': row["CODENAME"],
+#             'title': row["TITLE"],
+#             'guname': row["GUNAME"],
+#             'main_img': row["MAIN_IMG"],
+#             'use_trgt': row["USE_TRGT"],
+#             'program': row["PROGRAM"]
+#         }
+#         db.seoul_data.insert_one(doc)
+#
+#     return jsonify({'msg': 'db 저장 완료'})
 
-    doc = {
-        'name':name_receive,
-        'address':address_receive,
-        'size':size_receive
-    }
-    db.mars.insert_one(doc)
+@app.route("/search",methods=["POST"])
+def search():
 
-    return jsonify({'msg': '주문 완료'})
+    codename_receive = request.form['codename_give']
+    guname_receive = request.form['guname_give']
 
-@app.route("/mars", methods=["GET"])
-def web_mars_get():
+    print(guname_receive)
 
-    order_list = list(db.mars.find({}, {'_id': False}))
+    searching_result = list(db.seoul_data.find({'codename':codename_receive, 'guname':guname_receive},{'_id':False}))
 
-    return jsonify({'orders':order_list})
+    return jsonify({'search_result':searching_result})
+
+@app.route("/show")
+def show():
+
+    show_result = list(db.seoul_data.find({},{'_id':False}))
+
+    return jsonify({'show_result':show_result})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
+
