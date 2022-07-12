@@ -35,9 +35,6 @@ def search():
     codename_receive = request.form['codename_give']
     guname_receive = request.form['guname_give']
 
-    print(codename_receive)
-    print(guname_receive)
-
     if (codename_receive != "") and (guname_receive == ""):
         search_result = list(db.seoul_data.find({'codename': codename_receive}, {'_id': False}))
     elif (codename_receive == "") and (guname_receive != ""):
@@ -45,7 +42,6 @@ def search():
     elif (codename_receive != "") and (guname_receive != ""):
         search_result = list(db.seoul_data.find({'codename': codename_receive, 'guname': guname_receive}, {'_id': False}))
 
-    print(search_result)
     return jsonify({'search_result':search_result})
 
 @app.route("/show")
