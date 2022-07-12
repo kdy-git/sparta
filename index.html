@@ -72,17 +72,13 @@
             showAll();
         });
 
-
         function search_fuc() {
-
 
             let select_codename = $("#select_codename option:selected").val()
             let select_guname = $("#select_guname option:selected").val()
 
-            if (select_codename == "") {
-                alert("장르를 선택해주세요")
-            } else if (select_guname == "") {
-                alert("지역을 선택해주세요")
+            if (select_codename == "" && select_guname == "") {
+                alert("검색 조건을 선택해주세요")
             } else {
                 $('#post_box').empty()
                 $.ajax({
@@ -128,8 +124,6 @@
                 success: function (response) {
                     let result = response["show_result"]
 
-                    console.log(result)
-
                     for (let i = 0; i < result.length; i++) {
                         let main_img = result[i]['main_img']
                         let title = result[i]['title']
@@ -155,57 +149,57 @@
     </script>
 </head>
 <body>
-    <div class="wrap">
-        <div class="button">
-            <button type="button" class="btn btn-outline-secondary" onclick="login_page()">로그인</button>
-            <button type="button" class="btn btn-outline-secondary" onclick="signup_page()">회원가입</button>
-        </div>
-        <div class="banner"></div>
-        <div class="select_bar">
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select_codename">
-                <option selected>장르 선택</option>
-                <option value="클래식">클래식</option>
-                <option value="콘서트">콘서트</option>
-                <option value="축제-문화/예술">축제-문화/예술</option>
-                <option value="뮤지컬/오페라">뮤지컬/오페라</option>
-                <option value="전시/미술">전시/미술</option>
-                <option value="문화교양/강좌">문화교양/강좌</option>
-                <option value="국악">국악</option>
-                <option value="기타">기타</option>
-            </select>
-            <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select_guname">
-                <option value="">지역 선택</option>
-                <option value="강남구">강남구</option>
-                <option value="관악구">관악구</option>
-                <option value="광진구">광진구</option>
-                <option value="구로구">구로구</option>
-                <option value="금천구">금천구</option>
-                <option value="노원구">노원구</option>
-                <option value="도봉구">도봉구</option>
-                <option value="동대문구">동대문구</option>
-                <option value="동작구">동작구</option>
-                <option value="마포구">마포구</option>
-                <option value="서대문구">서대문구</option>
-                <option value="서초구">서초구</option>
-                <option value="성동구">성동구</option>
-                <option value="성북구">성북구</option>
-                <option value="송파구">송파구</option>
-                <option value="양천구">양천구</option>
-                <option value="영등포구">영등포구</option>
-                <option value="용산구">용산구</option>
-                <option value="은평구">은평구</option>
-                <option value="종로구">종로구</option>
-                <option value="중구">중구</option>
-                <option value="중랑구">중랑구</option>
-            </select>
-            <button type="button" class="btn btn-outline-secondary" onclick="search_fuc()">검색</button>
-        </div>
-        <div class="post_box">
-            <div class="row row-cols-1 row-cols-md-3 g-4" id="post_box">
+<div class="wrap">
+    <div class="button">
+        <button type="button" class="btn btn-outline-secondary" onclick="login_page()">로그인</button>
+        <button type="button" class="btn btn-outline-secondary" onclick="signup_page()">회원가입</button>
+    </div>
+    <div class="banner"></div>
+    <div class="select_bar">
+        <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select_codename">
+            <option selected value="">장르 선택</option>
+            <option value="클래식">클래식</option>
+            <option value="콘서트">콘서트</option>
+            <option value="축제-문화/예술">축제-문화/예술</option>
+            <option value="뮤지컬/오페라">뮤지컬/오페라</option>
+            <option value="전시/미술">전시/미술</option>
+            <option value="문화교양/강좌">문화교양/강좌</option>
+            <option value="국악">국악</option>
+            <option value="기타">기타</option>
+        </select>
+        <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="select_guname">
+            <option value="">지역 선택</option>
+            <option value="강남구">강남구</option>
+            <option value="관악구">관악구</option>
+            <option value="광진구">광진구</option>
+            <option value="구로구">구로구</option>
+            <option value="금천구">금천구</option>
+            <option value="노원구">노원구</option>
+            <option value="도봉구">도봉구</option>
+            <option value="동대문구">동대문구</option>
+            <option value="동작구">동작구</option>
+            <option value="마포구">마포구</option>
+            <option value="서대문구">서대문구</option>
+            <option value="서초구">서초구</option>
+            <option value="성동구">성동구</option>
+            <option value="성북구">성북구</option>
+            <option value="송파구">송파구</option>
+            <option value="양천구">양천구</option>
+            <option value="영등포구">영등포구</option>
+            <option value="용산구">용산구</option>
+            <option value="은평구">은평구</option>
+            <option value="종로구">종로구</option>
+            <option value="중구">중구</option>
+            <option value="중랑구">중랑구</option>
+        </select>
+        <button type="button" class="btn btn-outline-secondary" onclick="search_fuc()">검색</button>
+    </div>
+    <div class="post_box">
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="post_box">
 
-            </div>
         </div>
     </div>
+</div>
 </body>
 <script>
 
