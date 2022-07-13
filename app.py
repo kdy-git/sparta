@@ -48,23 +48,23 @@ def search():
 @app.route("/show")
 def show():
 
-    show_result = list(db.seoul_data.find())
+    show_result = list(db.seoul_data.find({}))
 
     for result in show_result:
         result['_id'] = str(result['_id'])
 
     return jsonify({'show_result':show_result})
 
-@app.route("/poster" ,methods=["POST"])
-def getposter():
-
-    id_receive = request.form['id_give']
-    print(id_receive)
-
-    id_result = db.seoul_data.find_one({'_id': ObjectId(id_receive)}, {'_id': False})
-    print(id_result)
-
-    return jsonify({'id_result': id_result})
+# @app.route("/poster" ,methods=["POST"])
+# def getposter():
+#
+#     id_receive = request.form['id_give']
+#     print(id_receive)
+#
+#     id_result = db.seoul_data.find_one({'_id': ObjectId(id_receive)}, {'_id': False})
+#     print(id_result)
+#
+#     return jsonify({'id_result': id_result})
 
 # @app.route("/comments")
 # def comment():
