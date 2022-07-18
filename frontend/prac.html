@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>나의 첫 웹페이지</title>
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@300&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Gothic A1', sans-serif;
+        }
+        .mytitle {
+            width: 300px; height: 200px; text-align: center;
+
+            background-image: url("https://www.ancient-origins.net/sites/default/files/field/image/Agesilaus-II-cover.jpg");
+            background-size: cover;
+            background-position: center;
+
+            border-radius: 10px;
+
+            padding-top: 40px;
+        }
+        .wrap {
+            background-color : black;
+            color : white;
+            width: 300px;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+        .wrap > button {
+            margin: 15px 75px;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="mytitle">
+            <h1>로그인 페이지</h1>
+            <h5>아이디, 비밀번호 입력</h5>
+        </div>
+        <p>ID <input type="text"></p>
+        <p>PW <input type="password"></p>
+        <button>로그인 버튼</button>
+    </div>
+
+</body>
+</html>
