@@ -43,12 +43,11 @@ public class Bus {
                 System.out.println(ts.busStatus(false));
                 ts.oil = remain_oil + 10;
                 System.out.println("남은 주유량 : " + ts.oil);
-                System.out.println("-----------------");
             } else {
 
                 System.out.println("★최대 승객 수 초과★");
-                System.out.println("-----------------");
             }
+            System.out.println("-----------------");
         }
     }
 

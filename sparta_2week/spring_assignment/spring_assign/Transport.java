@@ -42,12 +42,6 @@ public class Transport {
         }
     }
 
-    public int addSpeed() {
-        int addSpeed = sc.nextInt();
-        speed += addSpeed;
-        return speed;
-    }
-
     public int remainPassenger(int maxPassenger, int passenger) {
         return maxPassenger - passenger;
     }
@@ -68,5 +62,7 @@ public class Transport {
             return "상태 = 운행불가";
         }
     }
+
+
 
 }
