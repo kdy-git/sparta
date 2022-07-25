@@ -36,7 +36,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/api/boards/{no}")
-    public Long deleteMemo(@PathVariable Long no, @RequestBody BoardDto boardDto) {
+    public Long deleteBoard(@PathVariable Long no, @RequestBody BoardDto boardDto) {
         if(boardService.PasswordCheck(no, boardDto)) {
             boardRepository.deleteById(no);
         }else {
@@ -46,7 +46,7 @@ public class BoardController {
     }
 
     @PutMapping("/api/boards/{no}")
-    public Long updateMemo(@PathVariable Long no, @RequestBody BoardDto boardDto) {
+    public Long updateBoard(@PathVariable Long no, @RequestBody BoardDto boardDto) {
        if(boardService.PasswordCheck(no, boardDto)) {
             boardService.update(no, boardDto);
        }else {
